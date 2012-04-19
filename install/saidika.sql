@@ -10,7 +10,7 @@ USE `saidika` ;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `saidika`.`emergency` ;
 
-CREATE  TABLE IF NOT EXISTS `saidika`.`emergency` (
+CREATE TABLE IF NOT EXISTS `saidika`.`emergency` (
   `id` INT NOT NULL COMMENT 'Tracks the nature of emergencies .e.g Accident, Fire, Leakage, Robbery\netc' ,
   `emergency_name` VARCHAR(45) NOT NULL ,
   PRIMARY KEY (`id`) )
@@ -22,7 +22,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `saidika`.`service_provider` ;
 
-CREATE  TABLE IF NOT EXISTS `saidika`.`service_provider` (
+CREATE TABLE IF NOT EXISTS `saidika`.`service_provider` (
   `id` INT NOT NULL ,
   `provider_name` VARCHAR(100) NOT NULL ,
   PRIMARY KEY (`id`) )
@@ -34,13 +34,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `saidika`.`service_provider_contact` ;
 
-CREATE  TABLE IF NOT EXISTS `saidika`.`service_provider_contact` (
+CREATE TABLE IF NOT EXISTS `saidika`.`service_provider_contact` (
   `id` INT NOT NULL ,
   `service_provider_location_id` INT NOT NULL ,
   `contact_type_id` INT NOT NULL ,
   `contact_value` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `index2` () )
+  PRIMARY KEY (`id`)  )
 ENGINE = InnoDB;
 
 
@@ -49,7 +48,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `saidika`.`service_provider_location` ;
 
-CREATE  TABLE IF NOT EXISTS `saidika`.`service_provider_location` (
+CREATE TABLE IF NOT EXISTS `saidika`.`service_provider_location` (
   `id` INT NOT NULL ,
   `service_provider_id` INT NOT NULL ,
   `location_name` VARCHAR(45) NULL ,
@@ -64,11 +63,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `saidika`.`contact_type` ;
 
-CREATE  TABLE IF NOT EXISTS `saidika`.`contact_type` (
+CREATE TABLE IF NOT EXISTS `saidika`.`contact_type` (
   `id` INT NOT NULL ,
   `contact_type_name` VARCHAR(45) NULL ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `contact_type_name_idx` (`contact_type_name` ASC) )
+  UNIQUE INDEX `contact_type_name_idx` (`contact_type_name`) )
 ENGINE = InnoDB;
 
 
@@ -80,10 +79,10 @@ DROP TABLE IF EXISTS `saidika`.`emergency_request_log` ;
 CREATE  TABLE IF NOT EXISTS `saidika`.`emergency_request_log` (
   `id` INT NOT NULL ,
   `request_msisdn` VARCHAR(45) NOT NULL ,
-  `request_data` VARCHAR(45) NULL ,
+  `request_content` VARCHAR(45) NULL ,
   `request_date` TIMESTAMP NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `request_msisdn_idx` (`request_msisdn` ASC) )
+  INDEX `request_msisdn_idx` (`request_msisdn`) )
 ENGINE = InnoDB
 COMMENT = 'Tracks the raw emergency requests and whether they\'ve been p' /* comment truncated */ ;
 
@@ -93,7 +92,7 @@ COMMENT = 'Tracks the raw emergency requests and whether they\'ve been p' /* com
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `saidika`.`emergency_request` ;
 
-CREATE  TABLE IF NOT EXISTS `saidika`.`emergency_request` (
+CREATE TABLE IF NOT EXISTS `saidika`.`emergency_request` (
   `id` INT NOT NULL ,
   `request_msisdn` VARCHAR(45) NOT NULL ,
   `emergency_id` INT NOT NULL ,
@@ -103,7 +102,7 @@ CREATE  TABLE IF NOT EXISTS `saidika`.`emergency_request` (
   `sms_notification_sent` TINYINT NULL DEFAULT 0 ,
   `emergency_requestcol` VARCHAR(45) NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `emergency_id_msisdn_idx` (`request_msisdn` ASC, `emergency_id` ASC) )
+  INDEX `emergency_id_msisdn_idx` (`request_msisdn`, `emergency_id`) )
 ENGINE = InnoDB, 
 COMMENT = 'Breaks down an emergency request into the emergency category' /* comment truncated */ ;
 
@@ -113,7 +112,7 @@ COMMENT = 'Breaks down an emergency request into the emergency category' /* comm
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `saidika`.`delivery_report` ;
 
-CREATE  TABLE IF NOT EXISTS `saidika`.`delivery_report` (
+CREATE TABLE IF NOT EXISTS `saidika`.`delivery_report` (
   `id` INT NOT NULL ,
   `emergency_request_id` INT NOT NULL ,
   `delivery_status` TINYINT(2) NOT NULL DEFAULT 0 ,
